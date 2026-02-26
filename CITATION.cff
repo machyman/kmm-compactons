@@ -1,0 +1,23 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite the associated paper."
+title: "Computational Tools for K(m,m) Compacton Equations"
+type: software
+authors:
+  - family-names: "Hyman"
+    given-names: "James M."
+    orcid: "https://orcid.org/0000-0001-5247-5794"
+    affiliation: "Tulane University"
+repository-code: "https://github.com/machyman/kmm-compactons"
+license: MIT
+version: "1.0.0"
+date-released: "2026-02-26"
+preferred-citation:
+  type: article
+  authors:
+    - family-names: "Hyman"
+      given-names: "James M."
+      orcid: "https://orcid.org/0000-0001-5247-5794"
+  title: "What Remains When Integrability Fails? Mathematical Structure in the K(m,m) Compacton Equations"
+  journal: "Discrete and Continuous Dynamical Systems - Series A"
+  year: 2026
+  note: "Peter D. Lax Centennial Memorial Volume"

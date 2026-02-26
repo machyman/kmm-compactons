@@ -1,0 +1,129 @@
+{
+  "description": "BBM two-soliton collision elasticity measurements",
+  "method": "Pseudospectral, FFT-based: u_t = -(1-D_xx)^{-1} D_x (u + 0.5*u^2), symbol -ik/(1+k^2)",
+  "integrator": "RK45, rtol=1e-8, atol=1e-10",
+  "dealiasing": "2/3 rule",
+  "soliton_formula": "u = A * sech^2(kappa*(x-x0)), kappa = sqrt((c-1)/(4c)), c = 1 + A/3",
+  "elasticity_definition": "eps = (A1_post + A2_post) / (A1_pre + A2_pre), same as Eq 4.4 in paper",
+  "key_finding": "BBM (N=3) has eps ~ 0.999, MORE elastic than K(m,m) (N=5, eps ~ 0.95-0.99)",
+  "implication": "Falsifies naive conservation-elasticity monotonicity conjecture. Interaction geometry matters.",
+  "validation": {
+    "single_soliton_propagation_error": "1.48e-07",
+    "mass_conservation": "~1e-8 to 1e-9",
+    "L2_conservation": "~1e-6 to 1e-7"
+  },
+  "fixed_ratio_r05": [
+    {
+      "A1": 0.5,
+      "A2": 0.25,
+      "eps_amp": 0.999988,
+      "debris_frac": 8.54e-06
+    },
+    {
+      "A1": 1.0,
+      "A2": 0.5,
+      "eps_amp": 0.99981,
+      "debris_frac": 0.000141
+    },
+    {
+      "A1": 2.0,
+      "A2": 1.0,
+      "eps_amp": 0.999592,
+      "debris_frac": 0.000269
+    },
+    {
+      "A1": 4.0,
+      "A2": 2.0,
+      "eps_amp": 0.999791,
+      "debris_frac": 0.000349
+    },
+    {
+      "A1": 6.0,
+      "A2": 3.0,
+      "eps_amp": 1.00005,
+      "debris_frac": 3.57e-05
+    },
+    {
+      "A1": 10.0,
+      "A2": 5.0,
+      "eps_amp": 0.999674,
+      "debris_frac": 0.000205
+    }
+  ],
+  "fixed_A1_varying_ratio": [
+    {
+      "A1": 2.0,
+      "A2": 1.8,
+      "r": 0.9,
+      "eps_amp": 0.999798,
+      "debris_frac": 0.000119
+    },
+    {
+      "A1": 2.0,
+      "A2": 1.6,
+      "r": 0.8,
+      "eps_amp": 0.99957,
+      "debris_frac": 0.000325
+    },
+    {
+      "A1": 2.0,
+      "A2": 1.4,
+      "r": 0.7,
+      "eps_amp": 0.999798,
+      "debris_frac": 0.000244
+    },
+    {
+      "A1": 2.0,
+      "A2": 1.0,
+      "r": 0.5,
+      "eps_amp": 0.999592,
+      "debris_frac": 0.000269
+    },
+    {
+      "A1": 2.0,
+      "A2": 0.6,
+      "r": 0.3,
+      "eps_amp": 0.999345,
+      "debris_frac": 0.000587
+    },
+    {
+      "A1": 2.0,
+      "A2": 0.2,
+      "r": 0.1,
+      "eps_amp": 0.999808,
+      "debris_frac": 0.000156
+    }
+  ],
+  "large_amplitudes": [
+    {
+      "A1": 10.0,
+      "A2": 5.0,
+      "eps_amp": 0.999674,
+      "debris_frac": 0.000205
+    },
+    {
+      "A1": 10.0,
+      "A2": 2.0,
+      "eps_amp": 0.999862,
+      "debris_frac": 8.07e-05
+    },
+    {
+      "A1": 20.0,
+      "A2": 5.0,
+      "eps_amp": 0.999622,
+      "debris_frac": 0.000224
+    },
+    {
+      "A1": 20.0,
+      "A2": 2.0,
+      "eps_amp": 0.999754,
+      "debris_frac": 0.000197
+    }
+  ],
+  "summary_statistics": {
+    "eps_min": 0.999345,
+    "eps_max": 1.00005,
+    "eps_typical": "0.9996 +/- 0.0002",
+    "debris_frac_range": "1e-5 to 6e-4"
+  }
+}
