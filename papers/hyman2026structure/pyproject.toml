@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "kmm-compactons-hyman2026structure"
+version = "2.0.0"
+description = "Computational tools for K(m,m) compacton equations (companion code for hyman2026structure)"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.11"
+authors = [{name = "James M. Hyman", email = "mhyman@tulane.edu"}]
+dependencies = ["numpy>=2.0.0", "scipy>=1.11.0", "matplotlib>=3.7.0"]
+
+[project.optional-dependencies]
+dev = ["pytest>=7.3"]
+
+[tool.setuptools.packages.find]
+where = ["src"]

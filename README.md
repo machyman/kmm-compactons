@@ -12,6 +12,8 @@ Companion code for:
 > James M. Hyman
 > *Discrete and Continuous Dynamical Systems — Series A*, Peter D. Lax Centennial Memorial Volume (2026)
 
+**Reading the paper?** Every file the paper and its Supplement name, and the scripts that reproduce §5.1, §6 and Appendix C, are indexed in [papers/hyman2026structure/](papers/hyman2026structure/README.md).
+
 ---
 
 ## Overview
@@ -30,10 +32,11 @@ is a nonlinearly dispersive PDE admitting *compactons* — solitary waves with c
 | **BBM solver** | Pseudospectral solver for comparison experiments |
 | **Collision analysis** | Post-collision amplitude extraction, debris isolation, spectral analysis |
 | **Conservation laws** | All five known K(m,m) conservation laws (I₀–I₄) |
-| **Shelf waves** | Profile computation for the compacton singular limit (Theorem 6.3) |
-| **Symbolic verification** | SymPy-based verification of Theorem 4.1 and Proposition 4.8 |
+| **Shelf waves** | Profile computation for the compacton singular limit (Theorem 7.6) |
+| **Symbolic verification** | SymPy-based verification of Theorem 4.1 and Proposition 5.3 (notebook) and of the Appendix C identities ([`verification/symbolic_verification.py`](verification/symbolic_verification.py)) |
 | **Notebooks** | Colab-ready notebooks reproducing all paper figures and tables |
 | **Figure data** | CSV files used by pgfplots in the LaTeX manuscript |
+| **DCDS-A companion** | Index of every file the paper names, plus the §5.1 and §6 scripts: [papers/hyman2026structure/](papers/hyman2026structure/README.md) |
 
 ---
 
@@ -45,9 +48,9 @@ Click any notebook link below to run directly in your browser:
 
 | Notebook | Description |
 |----------|-------------|
-| [**Multi-m Debris Spectra**](https://colab.research.google.com/github/machyman/kmm-compactons/blob/main/notebooks/production_multi_m_D3v4.ipynb) | Figure 2: K(m,m) collision debris analysis for m = 2,3,4,5 |
-| [**BBM Collisions**](https://colab.research.google.com/github/machyman/kmm-compactons/blob/main/notebooks/bbm_collision_analysis.ipynb) | Section 5.3: BBM comparison experiment |
-| [**Shelf Wave Profiles**](https://colab.research.google.com/github/machyman/kmm-compactons/blob/main/notebooks/shelf_wave_figures.ipynb) | Section 6: Compacton singular limit |
+| [**Multi-m Debris Spectra**](https://colab.research.google.com/github/machyman/kmm-compactons/blob/main/notebooks/production_multi_m_D3v4.ipynb) | Figure 4: K(m,m) collision debris analysis for m = 2,3,4,5 |
+| [**BBM Collisions**](https://colab.research.google.com/github/machyman/kmm-compactons/blob/main/notebooks/bbm_collision_analysis.ipynb) | Section 5.2: BBM comparison experiment |
+| [**Shelf Wave Profiles**](https://colab.research.google.com/github/machyman/kmm-compactons/blob/main/notebooks/shelf_wave_figures.ipynb) | Section 7: Compacton singular limit |
 | [**Symbolic Verification**](https://colab.research.google.com/github/machyman/kmm-compactons/blob/main/notebooks/symbolic_verification.ipynb) | VEE: Independent verification of key formulas |
 
 ### Option 2: Local Installation
@@ -59,6 +62,7 @@ pip install -r requirements.txt
 
 # Run the verification suite
 python verification/verify_paper_results.py
+python verification/symbolic_verification.py   # Appendix C identities (SymPy)
 
 # Run tests
 pytest tests/ -v
@@ -81,11 +85,12 @@ kmm-compactons/
 │   ├── conservation.py         # Five conservation laws I₀–I₄
 │   ├── collision_analysis.py   # Debris extraction and spectral analysis
 │   ├── shelf_waves.py          # Shelf wave ODE solver
+│   ├── shelf_wave_profiles.py  # Exact K(2,2) shelf-wave profiles by quadrature
 │   └── plotting.py             # Publication figure utilities
 ├── notebooks/                  # Jupyter notebooks (Colab-ready)
-│   ├── production_multi_m_D3v4.ipynb   # Main production runs (Figure 2)
-│   ├── bbm_collision_analysis.ipynb    # BBM comparison (Section 5.3)
-│   ├── shelf_wave_figures.ipynb        # Shelf waves (Section 6)
+│   ├── production_multi_m_D3v4.ipynb   # Main production runs (Figure 4)
+│   ├── bbm_collision_analysis.ipynb    # BBM comparison (Section 5.2)
+│   ├── shelf_wave_figures.ipynb        # Shelf waves (Section 7)
 │   └── symbolic_verification.ipynb     # Formula verification (VEE)
 ├── data/                       # Computational output data
 │   ├── measurements_D3v4_N1024.json    # K(m,m) collision measurements
@@ -96,11 +101,14 @@ kmm-compactons/
 │   ├── profile_a0.10.csv              # Shelf wave, a=0.10
 │   ├── profile_a0.50.csv              # Shelf wave, a=0.50
 │   ├── profile_a1.00.csv              # Shelf wave, a=1.00
-│   └── period_energy.csv              # Period-energy relationship
+│   ├── period_energy.csv              # Period-energy relationship
+│   └── regime_*.csv                   # Four traveling-wave regimes (Figure 6)
+├── papers/hyman2026structure/  # DCDS-A companion: index, §5.1 and §6 scripts
 ├── tests/                      # Pytest test suite
 │   └── test_compacton.py
 ├── verification/               # Paper result verification
-│   └── verify_paper_results.py
+│   ├── verify_paper_results.py
+│   └── symbolic_verification.py   # Appendix C identities (SymPy)
 ├── requirements.txt
 ├── pyproject.toml
 ├── CITATION.cff
@@ -121,7 +129,7 @@ The core solver (`src/kmm_solver.py`) uses a regularized finite-difference appro
 - **Time integration:** Classical RK4 with CFL-based timestep
 - **Boundary conditions:** Periodic
 
-The key innovation is dual spectral filtering that suppresses aliasing while preserving physical modes below the cutoff wavenumber κ_cut = 2πN/(2qL).  This produces clean debris spectra enabling the spectral notch analysis at k = 1 (Theorem 5.2 evidence).
+The key innovation is dual spectral filtering that suppresses aliasing while preserving physical modes below the cutoff wavenumber κ_cut = 2πN/(2qL).  This produces clean debris spectra enabling the spectral notch analysis at k = 1 (evidence for Theorem 5.5(c)).
 
 ### BBM Solver
 
@@ -138,12 +146,15 @@ The BBM comparison solver (`src/bbm_solver.py`) uses:
 | Paper Reference | Result | Notebook/Script |
 |-----------------|--------|-----------------|
 | Theorem 4.1 | Universal formulas α, ℓ, c(A) | `symbolic_verification.ipynb` |
-| Proposition 4.8 | I₂ = I₃ = 0 for compactons | `symbolic_verification.ipynb` |
-| Table 5.1 | Collision measurements m = 2,3,4,5 | `production_multi_m_D3v4.ipynb` |
-| Figure 2 | Multi-m debris spectra | `production_multi_m_D3v4.ipynb` |
-| Table S1–S3 | BBM collision data | `bbm_collision_analysis.ipynb` |
-| Figure 3 | Shelf wave profiles | `shelf_wave_figures.ipynb` |
-| Table S5 | Decay rate validation | `shelf_wave_figures.ipynb` |
+| Proposition 5.3 | I₂ = I₃ = 0 for compactons | `symbolic_verification.ipynb` |
+| Table 4, Table S2 | Collision measurements m = 2,3,4,5 | `production_multi_m_D3v4.ipynb` |
+| Figure 4 | Multi-m debris spectra | `production_multi_m_D3v4.ipynb` |
+| Tables S3–S5 | BBM collision data | `bbm_collision_analysis.ipynb` |
+| Figure 7 | Shelf wave profiles | `shelf_wave_figures.ipynb`, [`src/shelf_wave_profiles.py`](src/shelf_wave_profiles.py) |
+| Table S7 | Decay rate validation | `shelf_wave_figures.ipynb` |
+| Section 5.1 | Collision amplitudes and elasticity | [`collision_certification.py`](papers/hyman2026structure/verification/collision_certification.py) |
+| Table 5 (Section 6) | Compacton emergence | [`emergence_verification.py`](papers/hyman2026structure/verification/emergence_verification.py) |
+| Table 8 (Appendix C) | Section 7 identities | [`symbolic_verification.py`](verification/symbolic_verification.py) |
 
 ---
 
@@ -167,7 +178,7 @@ The BBM comparison solver (`src/bbm_solver.py`) uses:
 If you use this code in your research, please cite both the paper and the software:
 
 ```bibtex
-@article{hyman2026compactons,
+@article{hyman2026structure,
   author  = {Hyman, James M.},
   title   = {What Remains When Integrability Fails? {M}athematical
              Structure in the {K}(m,m) Compacton Equations},
