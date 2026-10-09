@@ -16,9 +16,9 @@ reproduce specific results. The repository's main page is [README.md](../../READ
 | `collision_analysis.py` | [src/collision_analysis.py](../../src/collision_analysis.py) | Post-collision amplitude extraction and debris spectral analysis |
 | `shelf_wave_profiles.py` | [src/shelf_wave_profiles.py](../../src/shelf_wave_profiles.py) | Exact shelf-wave profile computation from quadrature formulas |
 | `symbolic_verification.py` | [verification/symbolic_verification.py](../../verification/symbolic_verification.py) | SymPy scripts for Appendix C verification |
-| `production_multi_m_D3v4.ipynb` | [notebooks/production_multi_m_D3v4.ipynb](../../notebooks/production_multi_m_D3v4.ipynb) | Colab-compatible notebook reproducing all collision results |
+| `production_multi_m_D3v4.ipynb` | [notebooks/production_multi_m_D3v4.ipynb](../../notebooks/production_multi_m_D3v4.ipynb) | Colab-compatible notebook running the finite-difference cross-check of the collisions (N = 1024, q = 3, δ = 0.5); not the PSM run of Table 4 and Table S2 |
 | `tests/` | [tests/test_compacton.py](../../tests/test_compacton.py) | Validation test suite |
-| `measurements_D3v4_N1024.json` | [data/measurements_D3v4_N1024.json](../../data/measurements_D3v4_N1024.json) | Complete K(m,m) collision dataset |
+| `measurements_D3v4_N1024.json` | [data/measurements_D3v4_N1024.json](../../data/measurements_D3v4_N1024.json) | Finite-difference cross-check run of the notebook above; not the PSM data of Table S2 |
 | `BBM_Collision_Results.json` | [data/BBM_Collision_Results.json](../../data/BBM_Collision_Results.json) | Complete BBM collision dataset |
 
 ## Reproducing specific results
@@ -29,7 +29,7 @@ reproduce specific results. The repository's main page is [README.md](../../READ
 | §6 emergence table (Table 5) | [verification/emergence_verification.py](verification/emergence_verification.py) | under a minute | see [EMERGENCE_COMPARISON.md](EMERGENCE_COMPARISON.md) |
 | §6 sensitivity to unstated settings | [verification/emergence_sensitivity.py](verification/emergence_sensitivity.py) | a few minutes | see [EMERGENCE_COMPARISON.md](EMERGENCE_COMPARISON.md) |
 | Appendix C, Table 8, and Proposition 7.3 | [symbolic_verification.py](../../verification/symbolic_verification.py) | under a minute | all 70 checks pass |
-| Figure 7 and Supplement Figure S2 data | [shelf_wave_profiles.py](../../src/shelf_wave_profiles.py) | seconds | see "Figure data" below |
+| Figure 8 and Supplement Figure S2 data | [shelf_wave_profiles.py](../../src/shelf_wave_profiles.py) | seconds | see "Figure data" below |
 
 The §6 table came from a production run whose full settings are not recorded here;
 [EMERGENCE_COMPARISON.md](EMERGENCE_COMPARISON.md) documents what the published script reproduces.
@@ -47,6 +47,30 @@ in the submitted package.
   height; running `shelf_wave_profiles.py` prints the comparison.
 - [`regime_algebraic.csv`](../../paper/figdata/regime_algebraic.csv), [`regime_cnoidal.csv`](../../paper/figdata/regime_cnoidal.csv),
   [`regime_compacton.csv`](../../paper/figdata/regime_compacton.csv) and [`regime_solitary.csv`](../../paper/figdata/regime_solitary.csv) (Figure 6): their generator is not yet in this repository.
+  `regime_algebraic.csv` holds the near-critical solitary wave of Figure 6(c), c = 3.5, with an
+  exponential tail. No algebraic soliton exists at c = c* (Remark 7.5). The file name is historical.
+
+## Figures
+
+| Figure | Generator | Input |
+|---|---|---|
+| Figure 1 | [fig_roadmap.tex](../../paper/fig_roadmap.tex) | the paper's `.aux` (section numbers, through `xr`) |
+| Figure 2 | [fig_compacton-profiles.tex](../../paper/fig_compacton-profiles.tex) | analytic |
+| Figure 3, panels (a)-(d) | [make_figures_v2_3_0.py](../../paper/make_figures_v2_3_0.py) | [spacetime_k22.npz](../../paper/spacetime_k22.npz), from [run_spacetime_collision.py](../../paper/run_spacetime_collision.py) and the package below (about two minutes) |
+| Figure 4 | not yet in this repository | |
+| Figure 5 | not yet in this repository | |
+| Figure 6 | [fig_wave-taxonomy.tex](../../paper/fig_wave-taxonomy.tex) | the four `regime_*.csv` |
+| Figure 7 | [make_figures_v2_3_0.py](../../paper/make_figures_v2_3_0.py) | computed from the potential |
+| Figure 8 | [fig_singular-limit.tex](../../paper/fig_singular-limit.tex) | the five `profile_*.csv` |
+| Supplement Figure S1 | [make_figures_v2_3_0.py](../../paper/make_figures_v2_3_0.py) | computed from the potential |
+| Supplement Figure S2 | pgfplots in the Supplement source | `period_energy.csv` |
+
+```bash
+python paper/run_spacetime_collision.py papers/hyman2026structure/src/kmm_compactons paper
+python paper/make_figures_v2_3_0.py paper/spacetime_k22.npz figures
+```
+
+The `.tex` sources read `figdata/` beside them; compile them from `paper/` with `pdflatex`.
 
 ## The pseudospectral package
 

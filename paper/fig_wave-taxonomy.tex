@@ -1,0 +1,67 @@
+\documentclass[border=1pt]{standalone}
+\usepackage{amsmath,amssymb}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usepgfplotslibrary{groupplots}
+\usepackage{pgfplotstable}
+\setlength{\textwidth}{5.0in}
+\setlength{\linewidth}{5.0in}
+\begin{document}
+\pgfplotstableread[col sep=comma]{figdata/regime_compacton.csv}\regimeA
+\pgfplotstableread[col sep=comma]{figdata/regime_solitary.csv}\regimeB
+\pgfplotstableread[col sep=comma]{figdata/regime_algebraic.csv}\regimeC
+\pgfplotstableread[col sep=comma]{figdata/regime_cnoidal.csv}\regimeD
+\pgfplotstableread[col sep=comma]{figdata/profile_compacton.csv}\compactondata
+\pgfplotstableread[col sep=comma]{figdata/profile_a0.01.csv}\profileAA
+\pgfplotstableread[col sep=comma]{figdata/profile_a0.10.csv}\profileAB
+\pgfplotstableread[col sep=comma]{figdata/profile_a0.50.csv}\profileAC
+\pgfplotstableread[col sep=comma]{figdata/profile_a1.00.csv}\profileAD
+\begin{tikzpicture}
+\begin{groupplot}[
+  group style={
+    group size=2 by 2,
+    horizontal sep=2.0cm,
+    vertical sep=2.2cm,
+  },
+  width=7.5cm, height=5.5cm,
+  xlabel={$\xi$},
+  ylabel={$f(\xi)$},
+  grid=major,
+  grid style={gray!30},
+  every axis title/.style={at={(0.5,1.03)}, anchor=south},
+]
+
+\nextgroupplot[
+  title={\small (a) Compacton: $a = 0$, $c = 4$},
+  xmin=-12, xmax=12,
+  ymin=-0.3, ymax=2.8,
+]
+\addplot[black, ultra thick, mark=none] table[x=xi, y=f] {\regimeA};
+\draw[dashed, gray] (-4.7124, 0) -- (-4.7124, 2.6);
+\draw[dashed, gray] ( 4.7124, 0) -- ( 4.7124, 2.6);
+
+\nextgroupplot[
+  title={\small (b) Solitary wave: $a = 1$, $c = 6 > c^*$},
+  xmin=-12, xmax=12,
+  ymin=-0.1, ymax=1.2,
+]
+\addplot[red, very thick, mark=none] table[x=xi, y=f] {\regimeB};
+
+\nextgroupplot[
+  title={\small (c) Near-critical: $a = 1$, $c = 3.5 \gtrsim c^*$},
+  xmin=-30, xmax=30,
+  ymin=-0.03, ymax=0.26,
+]
+\addplot[orange!80!red, very thick, mark=none] table[x=xi, y=f] {\regimeC};
+
+\nextgroupplot[
+  title={\small (d) Cnoidal wave: $a = 1$, $c = 2 < c^*$},
+  xmin=-30, xmax=30,
+  ymin=-0.20, ymax=0.14,
+]
+\addplot[blue!80, very thick, mark=none] table[x=xi, y=f] {\regimeD};
+\draw[dashed, gray, thin] (-30, 0) -- (30, 0);
+
+\end{groupplot}
+\end{tikzpicture}
+\end{document}

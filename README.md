@@ -95,6 +95,11 @@ kmm-compactons/
 ├── data/                       # Computational output data
 │   ├── measurements_D3v4_N1024.json    # K(m,m) collision measurements
 │   └── BBM_Collision_Results.json      # BBM collision measurements
+├── paper/                      # Figure sources for the manuscript
+│   ├── fig_*.tex                      # pgfplots/TikZ sources, Figures 1, 2, 6 and 8
+│   ├── make_figures_v2_3_0.py         # Figures 3 and 7, Supplement Figure S1
+│   ├── run_spacetime_collision.py     # regenerates spacetime_k22.npz (Figure 3 data)
+│   └── spacetime_k22.npz              # Figure 3 space-time data
 ├── paper/figdata/              # CSV data for LaTeX pgfplots figures
 │   ├── profile_compacton.csv           # Compacton profile (a=0 limit)
 │   ├── profile_a0.01.csv              # Shelf wave, a=0.01
@@ -102,7 +107,7 @@ kmm-compactons/
 │   ├── profile_a0.50.csv              # Shelf wave, a=0.50
 │   ├── profile_a1.00.csv              # Shelf wave, a=1.00
 │   ├── period_energy.csv              # Period-energy relationship
-│   └── regime_*.csv                   # Four traveling-wave regimes (Figure 6)
+│   └── regime_*.csv                   # Figure 6 profiles: compacton, solitary, near-critical, cnoidal
 ├── papers/hyman2026structure/  # DCDS-A companion: index, §5.1 and §6 scripts
 ├── tests/                      # Pytest test suite
 │   └── test_compacton.py
@@ -147,11 +152,10 @@ The BBM comparison solver (`src/bbm_solver.py`) uses:
 |-----------------|--------|-----------------|
 | Theorem 4.1 | Universal formulas α, ℓ, c(A) | `symbolic_verification.ipynb` |
 | Proposition 5.3 | I₂ = I₃ = 0 for compactons | `symbolic_verification.ipynb` |
-| Table 4, Table S2 | Collision measurements m = 2,3,4,5 | `production_multi_m_D3v4.ipynb` |
+| Table 4, Table S2 | Finite-difference cross-check of the collision measurements, m = 2,3,4,5 (N = 1024, q = 3, δ = 0.5); not the PSM run of the tables, and its values differ | `production_multi_m_D3v4.ipynb` |
 | Figure 4 | Multi-m debris spectra | `production_multi_m_D3v4.ipynb` |
 | Tables S3–S5 | BBM collision data | `bbm_collision_analysis.ipynb` |
-| Figure 7 | Shelf wave profiles | `shelf_wave_figures.ipynb`, [`src/shelf_wave_profiles.py`](src/shelf_wave_profiles.py) |
-| Table S7 | Decay rate validation | `shelf_wave_figures.ipynb` |
+| Figure 8 | Shelf wave profiles | `shelf_wave_figures.ipynb`, [`src/shelf_wave_profiles.py`](src/shelf_wave_profiles.py) |
 | Section 5.1 | Collision amplitudes and elasticity | [`collision_certification.py`](papers/hyman2026structure/verification/collision_certification.py) |
 | Table 5 (Section 6) | Compacton emergence | [`emergence_verification.py`](papers/hyman2026structure/verification/emergence_verification.py) |
 | Table 8 (Appendix C) | Section 7 identities | [`symbolic_verification.py`](verification/symbolic_verification.py) |

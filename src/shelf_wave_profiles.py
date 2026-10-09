@@ -11,7 +11,7 @@ w0 = (4c/3) cos^2(xi/4) for |xi| <= 2 pi (eq. compacton-recovery). Cnoidal waves
 T(E) = 2 int dv / sqrt(2(E - V(v))) (eq. period-quadrature), V the K(2,2) potential (eq. V-k22).
 
 Parameters are those of the paper's figure data: c = 4 with a = 0, 0.01, 0.10, 0.50, 1.00
-(Figure 7), and (a, c) = (2, 3) for the period-energy curve (Supplement Figure S2).
+(Figure 8), and (a, c) = (2, 3) for the period-energy curve (Supplement Figure S2).
 
     python src/shelf_wave_profiles.py              compare with the deposited paper/figdata/*.csv
     python src/shelf_wave_profiles.py --write DIR  write the exact values (same grids, same format)
@@ -28,7 +28,7 @@ import numpy as np
 from scipy.integrate import quad
 from scipy.optimize import brentq
 
-C = 4.0                                   # Figure 7 speed
+C = 4.0                                   # Figure 8 speed
 PROFILES = {'profile_compacton.csv': 0.0, 'profile_a0.01.csv': 0.01, 'profile_a0.10.csv': 0.10,
             'profile_a0.50.csv': 0.50, 'profile_a1.00.csv': 1.00}
 PERIOD_A, PERIOD_C = 2.0, 3.0              # Supplement Figure S2 (energy measured from the center, V(v0) = 0)

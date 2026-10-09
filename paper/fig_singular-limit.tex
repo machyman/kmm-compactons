@@ -1,0 +1,55 @@
+\documentclass[border=1pt]{standalone}
+\usepackage{amsmath,amssymb}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usepgfplotslibrary{groupplots}
+\usepackage{pgfplotstable}
+\setlength{\textwidth}{5.0in}
+\setlength{\linewidth}{5.0in}
+\begin{document}
+\pgfplotstableread[col sep=comma]{figdata/regime_compacton.csv}\regimeA
+\pgfplotstableread[col sep=comma]{figdata/regime_solitary.csv}\regimeB
+\pgfplotstableread[col sep=comma]{figdata/regime_algebraic.csv}\regimeC
+\pgfplotstableread[col sep=comma]{figdata/regime_cnoidal.csv}\regimeD
+\pgfplotstableread[col sep=comma]{figdata/profile_compacton.csv}\compactondata
+\pgfplotstableread[col sep=comma]{figdata/profile_a0.01.csv}\profileAA
+\pgfplotstableread[col sep=comma]{figdata/profile_a0.10.csv}\profileAB
+\pgfplotstableread[col sep=comma]{figdata/profile_a0.50.csv}\profileAC
+\pgfplotstableread[col sep=comma]{figdata/profile_a1.00.csv}\profileAD
+\pgfplotsset{
+  compat=1.18,
+  every axis/.append style={
+    width=12cm, height=7.5cm,
+    xlabel={$\xi$},
+    ylabel={$f(\xi)$},
+    xmin=-18, xmax=18,
+    ymin=-0.2,
+    legend style={at={(0.98,0.97)}, anchor=north east,
+      font=\small, cells={anchor=west}},
+    grid=major,
+    grid style={gray!30},
+  }
+}
+\begin{tikzpicture}
+\begin{axis}[
+  title={K(2,2) solitary waves: $c = 4$, varying shelf height $a$},
+  ymax=5.8,
+]
+\addplot[black, ultra thick] table[x=xi, y=f] {\compactondata};
+\addlegendentry{$a = 0$ (compacton)}
+
+\addplot[blue!80, thick, mark=none] table[x=xi, y=f] {\profileAA};
+\addlegendentry{$a = 0.01$}
+
+\addplot[green!60!black, thick, mark=none] table[x=xi, y=f] {\profileAB};
+\addlegendentry{$a = 0.1$}
+
+\addplot[orange, thick, mark=none] table[x=xi, y=f] {\profileAC};
+\addlegendentry{$a = 0.5$}
+
+\addplot[red, thick, mark=none] table[x=xi, y=f] {\profileAD};
+\addlegendentry{$a = 1.0$}
+
+\end{axis}
+\end{tikzpicture}
+\end{document}
