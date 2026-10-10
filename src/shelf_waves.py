@@ -3,12 +3,12 @@ Shelf wave profiles and the compacton singular limit.
 
 The K(m,m) equation on a nonzero background u = a admits shelf waves:
 smooth, spatially decaying traveling wave solutions that converge to
-compactons as a → 0 (Theorem 6.3).
+compactons as a → 0 (Theorem 7.6).
 
 For K(2,2) the shelf wave ODE can be solved in closed form via
 elliptic functions. For general m, we use numerical shooting.
 
-Reference: Section 6 and Theorem 6.3 of the Lax Centennial paper.
+Reference: Section 7 and Theorem 7.6 of the Lax Centennial paper.
 """
 
 import numpy as np
@@ -136,7 +136,7 @@ def decay_rate_theory(m, a, c=None):
     """
     Theoretical exponential decay rate kappa(a).
 
-    From Eq. (6.11): kappa = sqrt((c - m*a^{m-1}) / (m*a^{m-1}))
+    From Theorem 7.6(d): kappa = sqrt((c - m*a^{m-1}) / (m*a^{m-1}))
 
     Parameters
     ----------

@@ -8,7 +8,7 @@ Provides:
   - Spectral notch detection at k=1
   - SNR estimation against single-propagation noise floor
 
-Reference: Table 5.1 and Section 5.2 of the Lax Centennial paper.
+Reference: Table 4 and Section 5.1 of the Lax Centennial paper.
 """
 
 import numpy as np
@@ -126,5 +126,5 @@ def analyze_below_cutoff(k, spec, k_cut_phys, k_target=1.0):
 
 
 def elasticity_coefficient(A1_pre, A2_pre, A1_post, A2_post):
-    """Amplitude elasticity: Eq. (5.1) of the paper."""
+    """Amplitude elasticity: Eq. (31) of the paper."""
     return (A1_post + A2_post) / (A1_pre + A2_pre)

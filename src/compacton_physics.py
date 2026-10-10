@@ -45,7 +45,7 @@ def amplitude_from_speed(m, c):
 
 
 def mass_coefficient(m):
-    """C_m such that I_0 = C_m * A.  Eq. (4.7)."""
+    """C_m such that I_0 = C_m * A.  Eq. (63)."""
     from scipy.special import beta as beta_func
     alpha = edge_exponent(m)
     ell = width_parameter(m)
@@ -53,7 +53,7 @@ def mass_coefficient(m):
 
 
 def energy_coefficient(m):
-    """D_m such that I_1 = D_m * A^{m+1}.  Eq. (4.8)."""
+    """D_m such that I_1 = D_m * A^{m+1}, I_1 = int u^{m+1} dx: (m+1) times the D_m of eq. (64)."""
     from scipy.special import beta as beta_func
     alpha = edge_exponent(m)
     ell = width_parameter(m)
@@ -94,7 +94,7 @@ def shelf_wave_decay_rate(m, a, c):
     """
     Exponential decay rate kappa(a) for shelf waves on background u=a.
 
-    From Eq. (6.11) of the main paper, for c > c* = m*a^{m-1}:
+    From Theorem 7.6(d) of the main paper, for c > c* = m*a^{m-1}:
         kappa = sqrt((c - m*a^{m-1}) / (m*a^{m-1}))
 
     Parameters

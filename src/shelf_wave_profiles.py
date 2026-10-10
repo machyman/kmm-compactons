@@ -4,7 +4,8 @@ shelf_wave_profiles.py: exact K(2,2) shelf-wave profiles and periods from the qu
 of Section 7.3 and Appendix J of Hyman (2026), "What Remains When Integrability Fails? Mathematical
 Structure in the K(m,m) Compacton Equations", DCDS-A (Peter D. Lax Centennial Memorial Volume).
 
-Solitary shelf waves (a > 0, c > 2a) are known only through the implicit quadrature (eq. quadrature)
+Solitary shelf waves (a > 0, c > 2a) are given by the implicit quadrature (eq. quadrature), which
+Section 7.3 evaluates in elementary closed form; this script integrates it numerically:
     xi(w) = int_w^{w+} 2 s ds / ((s - a) sqrt((w+ - s)(s - w-))),     f = w - a,
 with w+- = 2c/3 - a +- sqrt(2c(2c - 3a))/3 (eq. wpm). The compacton limit a = 0 is
 w0 = (4c/3) cos^2(xi/4) for |xi| <= 2 pi (eq. compacton-recovery). Cnoidal waves (c < 2a) have period

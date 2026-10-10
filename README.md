@@ -28,13 +28,13 @@ is a nonlinearly dispersive PDE admitting *compactons* — solitary waves with c
 
 | Component | Description |
 |-----------|-------------|
-| **K(m,m) solver** | Regularized finite-difference solver with dual spectral filtering and RK4 |
+| **K(m,m) solvers** | Pseudospectral (PSM) solver, the method of every K(m,m) collision run in the paper (Appendix D): package `papers/hyman2026structure/src/kmm_compactons/`, behind §5.1 and Figure 3 ([index](papers/hyman2026structure/README.md#the-pseudospectral-package)). Regularized finite-difference solver with dual spectral filtering and RK4 (`src/kmm_solver.py`), the scheme of the cross-check notebook |
 | **BBM solver** | Pseudospectral solver for comparison experiments |
 | **Collision analysis** | Post-collision amplitude extraction, debris isolation, spectral analysis |
 | **Conservation laws** | All five known K(m,m) conservation laws (I₀–I₄) |
 | **Shelf waves** | Profile computation for the compacton singular limit (Theorem 7.6) |
 | **Symbolic verification** | SymPy-based verification of Theorem 4.1 and Proposition 5.3 (notebook) and of the Appendix C identities ([`verification/symbolic_verification.py`](verification/symbolic_verification.py)) |
-| **Notebooks** | Colab-ready notebooks reproducing all paper figures and tables |
+| **Notebooks** | Colab-ready notebooks: symbolic verification, BBM collisions, shelf waves, and a finite-difference cross-check of the collisions |
 | **Figure data** | CSV files used by pgfplots in the LaTeX manuscript |
 | **DCDS-A companion** | Index of every file the paper names, plus the §5.1 and §6 scripts: [papers/hyman2026structure/](papers/hyman2026structure/README.md) |
 
@@ -48,7 +48,7 @@ Click any notebook link below to run directly in your browser:
 
 | Notebook | Description |
 |----------|-------------|
-| [**Multi-m Debris Spectra**](https://colab.research.google.com/github/machyman/kmm-compactons/blob/main/notebooks/production_multi_m_D3v4.ipynb) | Figure 4: K(m,m) collision debris analysis for m = 2,3,4,5 |
+| [**Multi-m Debris Spectra**](https://colab.research.google.com/github/machyman/kmm-compactons/blob/main/notebooks/production_multi_m_D3v4.ipynb) | Finite-difference cross-check of the K(m,m) collision debris analysis, m = 2,3,4,5 (N = 1024, q = 3, δ = 0.5); not the PSM run of Figure 4, and its values differ |
 | [**BBM Collisions**](https://colab.research.google.com/github/machyman/kmm-compactons/blob/main/notebooks/bbm_collision_analysis.ipynb) | Section 5.2: BBM comparison experiment |
 | [**Shelf Wave Profiles**](https://colab.research.google.com/github/machyman/kmm-compactons/blob/main/notebooks/shelf_wave_figures.ipynb) | Section 7: Compacton singular limit |
 | [**Symbolic Verification**](https://colab.research.google.com/github/machyman/kmm-compactons/blob/main/notebooks/symbolic_verification.ipynb) | VEE: Independent verification of key formulas |
@@ -88,7 +88,7 @@ kmm-compactons/
 │   ├── shelf_wave_profiles.py  # Exact K(2,2) shelf-wave profiles by quadrature
 │   └── plotting.py             # Publication figure utilities
 ├── notebooks/                  # Jupyter notebooks (Colab-ready)
-│   ├── production_multi_m_D3v4.ipynb   # Main production runs (Figure 4)
+│   ├── production_multi_m_D3v4.ipynb   # FD cross-check of the collisions (not Figure 4)
 │   ├── bbm_collision_analysis.ipynb    # BBM comparison (Section 5.2)
 │   ├── shelf_wave_figures.ipynb        # Shelf waves (Section 7)
 │   └── symbolic_verification.ipynb     # Formula verification (VEE)
@@ -125,9 +125,11 @@ kmm-compactons/
 
 ## Numerical Methods
 
-### K(m,m) Solver
+### K(m,m) Solvers
 
-The core solver (`src/kmm_solver.py`) uses a regularized finite-difference approach:
+Every K(m,m) collision run in the paper used the pseudospectral method (PSM) of Appendix D. The PSM package in `papers/hyman2026structure/src/kmm_compactons/` is the solver behind §5.1 and Figure 3; see [papers/hyman2026structure/](papers/hyman2026structure/README.md#the-pseudospectral-package).
+
+The finite-difference solver (`src/kmm_solver.py`), the scheme of the cross-check notebook `production_multi_m_D3v4.ipynb`, uses a regularized finite-difference approach:
 
 - **Spatial discretization:** 4th-order central differences for D₁ and D₃, 2nd-order for D₂
 - **Spectral filtering:** Low-pass filter on advection, high-pass filter on artificial dissipation
@@ -153,9 +155,9 @@ The BBM comparison solver (`src/bbm_solver.py`) uses:
 | Theorem 4.1 | Universal formulas α, ℓ, c(A) | `symbolic_verification.ipynb` |
 | Proposition 5.3 | I₂ = I₃ = 0 for compactons | `symbolic_verification.ipynb` |
 | Table 4, Table S2 | Finite-difference cross-check of the collision measurements, m = 2,3,4,5 (N = 1024, q = 3, δ = 0.5); not the PSM run of the tables, and its values differ | `production_multi_m_D3v4.ipynb` |
-| Figure 4 | Multi-m debris spectra | `production_multi_m_D3v4.ipynb` |
-| Tables S3–S5 | BBM collision data | `bbm_collision_analysis.ipynb` |
-| Figure 8 | Shelf wave profiles | `shelf_wave_figures.ipynb`, [`src/shelf_wave_profiles.py`](src/shelf_wave_profiles.py) |
+| Figure 4 | Multi-m debris spectra (PSM run): generator not yet in this repository. The notebook plots the finite-difference cross-check (N = 1024, q = 3, δ = 0.5), whose values differ | `production_multi_m_D3v4.ipynb` (cross-check only) |
+| Tables S3–S5 | BBM collision data, in [`data/BBM_Collision_Results.json`](data/BBM_Collision_Results.json); the notebook re-runs the Table S3 cases (r = 0.5), and its values differ | `bbm_collision_analysis.ipynb` |
+| Figure 8 | Shelf wave profiles: `src/shelf_wave_profiles.py` reproduces the deposited `paper/figdata/profile_*.csv` to within 6.35 × 10⁻⁴; `shelf_wave_figures.ipynb` writes CSVs on other grids and does not produce those files | [`src/shelf_wave_profiles.py`](src/shelf_wave_profiles.py) |
 | Section 5.1 | Collision amplitudes and elasticity | [`collision_certification.py`](papers/hyman2026structure/verification/collision_certification.py) |
 | Table 5 (Section 6) | Compacton emergence | [`emergence_verification.py`](papers/hyman2026structure/verification/emergence_verification.py) |
 | Table 8 (Appendix C) | Section 7 identities | [`symbolic_verification.py`](verification/symbolic_verification.py) |
@@ -170,7 +172,7 @@ The BBM comparison solver (`src/bbm_solver.py`) uses:
 | ℓ = 2m/(m−1) | `width_parameter(m)` | `compacton_physics` |
 | c = (m+1)/(2m) A^{m−1} | `speed(m, A)` | `compacton_physics` |
 | I₀ = ∫ u dx | `mass(u, dx)` | `conservation` |
-| I₁ = ∫ u^{m+1} dx | `energy(u, m, dx)` | `conservation` |
+| I₁ = ∫ u^{m+1}/(m+1) dx | `energy(u, m, dx)`, which returns ∫ u^{m+1} dx = (m+1) I₁ | `conservation` |
 | I₄ (nonlocal) | `nonlocal_momentum(u, x, dx)` | `conservation` |
 | ε (elasticity) | `elasticity_coefficient(...)` | `collision_analysis` |
 | κ (decay rate) | `decay_rate_theory(m, a, c)` | `shelf_waves` |
@@ -206,5 +208,5 @@ MIT License. See [LICENSE](LICENSE).
 
 **James M. Hyman**
 Department of Mathematics, Tulane University
-jim@jimmyhyman.com
+mhyman@tulane.edu
 ORCID: [0000-0001-5247-5794](https://orcid.org/0000-0001-5247-5794)

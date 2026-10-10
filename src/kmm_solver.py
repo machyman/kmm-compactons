@@ -13,7 +13,9 @@ Numerical method:
   - Fixed-step classical RK4 time integration
   - Periodic boundary conditions
 
-Reference: Appendix D of the Lax Centennial paper.
+Reference: the Lax Centennial paper's collision runs use the pseudospectral
+method (PSM) of its Appendix D; this finite-difference scheme is the one run
+by the cross-check notebook production_multi_m_D3v4.ipynb.
 """
 
 import numpy as np

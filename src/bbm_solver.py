@@ -10,7 +10,7 @@ rewritten as:
 using pseudospectral discretization with 2/3 dealiasing and
 SciPy's RK45 adaptive integrator.
 
-Reference: Section 5.3 and Supplement of the Lax Centennial paper.
+Reference: Section 5.2, Appendix I and Supplement of the Lax Centennial paper.
 """
 
 import numpy as np

@@ -2,7 +2,7 @@
 Conservation laws for the K(m,m) equation.
 
 The K(m,m) equation possesses exactly five known independent conservation
-laws (Vodová 2013, Proposition 4.3 of the paper):
+laws (Vodová 2013, Theorem 4.6 of the paper):
 
   I_0 = int u dx                       (mass)
   I_1 = int u^{m+1} dx                 (energy, also Hamiltonian)
@@ -13,7 +13,7 @@ laws (Vodová 2013, Proposition 4.3 of the paper):
 The first four are local; I_4 is nonlocal and involves the pseudoinverse
 of the Helmholtz operator restricted to mean-zero functions.
 
-Reference: Section 4.2 and Theorem 4.6 of the Lax Centennial paper.
+Reference: Section 4.3 and Theorem 4.6 of the Lax Centennial paper.
 """
 
 import numpy as np
@@ -26,7 +26,7 @@ def mass(u, dx):
 
 
 def energy(u, m, dx):
-    """I_1 = integral of u^{m+1} dx."""
+    """Integral of u^{m+1} dx, which is (m+1) times the paper's I_1 = int u^{m+1}/(m+1) dx (eq. (23))."""
     return np.sum(np.sign(u) * np.abs(u) ** (m + 1)) * dx
 
 
@@ -47,10 +47,10 @@ def nonlocal_momentum(u, x, dx):
     Computed via Fourier: (D_xx + 1)^{-1} has symbol 1/(1 - k^2)
     for k != ±1, and the pseudoinverse sets the k=±1 modes to zero.
 
-    Note: This is the pseudoinverse formulation (Section 4.2.3),
+    Note: This is the pseudoinverse formulation (Section 4.3, eq. (26)),
     not the exponential-kernel form. The L^2 duality pairing
     makes this well-defined for compactons since they have
-    I_2 = I_3 = 0 (Proposition 4.8).
+    I_2 = I_3 = 0 (Proposition 5.3).
     """
     N = len(u)
     L = N * dx

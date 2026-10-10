@@ -71,7 +71,7 @@ def plot_debris_spectrum(k, spec, k_cut_phys, m, ax=None, color='C0',
 
 def plot_multi_m_spectra(results_dict, k_cut_phys, figsize=(11, 9)):
     """
-    Generate the 4-panel debris spectrum figure (Figure 2 of paper).
+    Generate a 4-panel debris spectrum figure in the layout of Figure 4 of the paper.
 
     Parameters
     ----------
